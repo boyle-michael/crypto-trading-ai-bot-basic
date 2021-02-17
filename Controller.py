@@ -1,5 +1,6 @@
 from Dataset import Dataset
-from Model import Model
+import Model
+import NewModel
 from Config import *
 from AutoTrader import AutoTrader
 import argparse
@@ -67,7 +68,7 @@ if __name__ == '__main__':
         data = dataset.loadCoinData(COIN_PAIR, TESTING_MONTHS)
         x_test, y_test, prices = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW, labeling_window=LABELING_WINDOW)
 
-        test_model = Model("AutoTraderAI", x_train)
+        test_model = NewModel.Model("AutoTraderAI", x_train)
         test_model.train(x_train, y_train, batch_size=64, epochs=10)
         # test_model.evaluate(x_test,y_test)
 

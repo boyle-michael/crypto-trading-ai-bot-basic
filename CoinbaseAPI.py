@@ -31,8 +31,8 @@ class CoinbaseAPI:
                 reversed_response.append(nd)
 
             data.append(list(reversed(reversed_response)))
-            start_date += datetime.timedelta(minutes=61)
-            time.sleep(3)
+            start_date += datetime.timedelta(minutes=60)
+            time.sleep(0.34)
 
         return data
 

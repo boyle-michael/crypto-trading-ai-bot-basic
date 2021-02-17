@@ -71,5 +71,5 @@ class Model:
     def predict(self,sample):
         sample = sample.reshape(-1, 1, len(sample[0]))
         prediction = np.array(tf.argmax(self.model.predict(sample),1))[0]
-
+        #print(f'Prediction: {prediction}')
         return prediction
