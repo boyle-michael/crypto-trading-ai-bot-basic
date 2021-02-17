@@ -2,6 +2,7 @@ from VirtualAccount import VirtualAccount
 import numpy as np
 from Config import *
 import time
+import matplotlib.pyplot as plt
 
 
 class AutoTrader:
@@ -43,6 +44,8 @@ class AutoTrader:
         day_count = 0
         start_price = prices[0]
         final_price = prices[-1]
+        plt.plot(prices)
+        plt.show()
         initial_balance = self.account.usd_balance
         for i in range(0, len(samples)):
 
@@ -80,13 +83,13 @@ class AutoTrader:
 
                 self.account.btc_balance = self.account.btc_amount * btc_price
 
-                time.sleep(0.1)  # Only for Visual Purposes
+                time.sleep(0)  # Only for Visual Purposes
 
         print("#################################################################################################")
         print("#           Account Balance: $", (self.account.usd_balance + self.account.btc_balance), " BTC: $",
               self.account.btc_balance, " USD: $", self.account.usd_balance, "")
         print("#################################################################################################")
         print(
-            f'#           Buy and hold: ${initial_balance * (start_price / final_price)}, BTC Amount: {self.account.btc_amount}')
-        print(f'#           BTC/USD: ${self.account.btc_price}')
+            f'#           Buy and hold: ${initial_balance * (final_price / start_price)}, Start: {start_price}, Final: {final_price}')
+        print(f'#           BTC/USD: ${self.account.btc_price}, BTC Amount: {self.account.btc_amount}')
         print("#################################################################################################")

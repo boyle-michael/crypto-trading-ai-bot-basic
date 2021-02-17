@@ -1,5 +1,5 @@
 from Dataset import Dataset
-import Model
+#import Model
 import NewModel
 from Config import *
 from AutoTrader import AutoTrader
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                                                              labeling_window=LABELING_WINDOW)
 
         test_model = NewModel.Model("AutoTraderAI", x_train)
-        test_model.train(x_train, y_train, batch_size=64, epochs=10)
+        test_model.train(x_train, y_train, batch_size=64, epochs=100)
         # test_model.evaluate(x_test,y_test)
 
         auto_trader = AutoTrader(test_model)
