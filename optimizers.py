@@ -295,5 +295,3 @@ if __name__ == '__main__':
     optimizer.scg(parabola, parabola_gradient, [wmin],
                   n_epochs=50, learning_rate=0.1)
     print(f'scg: Minimum of parabola is at {wmin}. Value found is {w}')
-
-
