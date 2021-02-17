@@ -35,11 +35,10 @@ if __name__ == '__main__':
           "              =zz3==...          ...=t3z13P^                     \n",
           "                   `*=zjzczIIII3zzztE3>*^`                        \n\n\n")
 
-
     print("\n> Welcome to Crypto-Trading AI")
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--collect_coins",action="store_true")
+    parser.add_argument("--collect_coins", action="store_true")
     parser.add_argument("--train_and_trade", action="store_true")
     parser.add_argument("--start")
     parser.add_argument("--end")
@@ -54,19 +53,22 @@ if __name__ == '__main__':
         month = tokens[0] + "_" + tokens[1] + "_"
 
         coinbaseAPI = CoinbaseAPI()
-        historic_data = coinbaseAPI.getCoinHistoricData(COIN_PAIR, start=start_date, end=end_date,granularity=GRANULARITY)
-        dataset.storeRawCoinHistoricData(month,COIN_PAIR,historic_data)
+        historic_data = coinbaseAPI.getCoinHistoricData(COIN_PAIR, start=start_date, end=end_date,
+                                                        granularity=GRANULARITY)
+        dataset.storeRawCoinHistoricData(month, COIN_PAIR, historic_data)
 
-        print("> Using Coinbase API to build dataset for ",COIN_PAIR)
+        print("> Using Coinbase API to build dataset for ", COIN_PAIR)
 
     elif args.train_and_trade:
         print("> Creating Training Data for ", COIN_PAIR)
         data = dataset.loadCoinData(COIN_PAIR, TRAINING_MONTHS)
-        x_train, y_train, _ = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW, labeling_window=LABELING_WINDOW)
+        x_train, y_train, _ = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW,
+                                                          labeling_window=LABELING_WINDOW)
 
         print("> Creating Testing Data for ", COIN_PAIR)
         data = dataset.loadCoinData(COIN_PAIR, TESTING_MONTHS)
-        x_test, y_test, prices = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW, labeling_window=LABELING_WINDOW)
+        x_test, y_test, prices = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW,
+                                                             labeling_window=LABELING_WINDOW)
 
         test_model = NewModel.Model("AutoTraderAI", x_train)
         test_model.train(x_train, y_train, batch_size=64, epochs=10)
@@ -77,11 +79,3 @@ if __name__ == '__main__':
     else:
         print("> The biggest mistake you can make in life is to waste your time. – Jerry Bruckner")
         print("> P.S. Use an argument next time: --collect_coins or --train_and_trade")
-
-
-
-
-
-
-
-
