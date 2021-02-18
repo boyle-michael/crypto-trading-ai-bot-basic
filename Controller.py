@@ -1,5 +1,5 @@
 from Dataset import Dataset
-#import Model
+import Model
 import NewModel
 from Config import *
 from AutoTrader import AutoTrader
@@ -62,17 +62,20 @@ if __name__ == '__main__':
     elif args.train_and_trade:
         print("> Creating Training Data for ", COIN_PAIR)
         data = dataset.loadCoinData(COIN_PAIR, TRAINING_MONTHS)
-        x_train, y_train, _ = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW,
-                                                          labeling_window=LABELING_WINDOW)
+        # x_train, y_train, _ = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW,
+        #                                                   labeling_window=LABELING_WINDOW)
+        x_train, y_train, _ = dataset.createTrainingData(COIN_PAIR, data, 60)
+
 
         print("> Creating Testing Data for ", COIN_PAIR)
         data = dataset.loadCoinData(COIN_PAIR, TESTING_MONTHS)
-        x_test, y_test, prices = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW,
-                                                             labeling_window=LABELING_WINDOW)
+        # x_test, y_test, prices = dataset.createTrainTestSets(COIN_PAIR, data, training_window=TRAINING_WINDOW,
+        #                                                      labeling_window=LABELING_WINDOW)
+        x_test, y_test, prices = dataset.createTrainingData(COIN_PAIR, data, 60)
 
         test_model = NewModel.Model("AutoTraderAI", x_train)
-        test_model.train(x_train, y_train, batch_size=64, epochs=100)
-        # test_model.evaluate(x_test,y_test)
+        test_model.train(x_train, y_train, batch_size=64, epochs=50)
+        test_model.evaluate(x_test,y_test)
 
         auto_trader = AutoTrader(test_model)
         auto_trader.runSimulation(x_test, prices)

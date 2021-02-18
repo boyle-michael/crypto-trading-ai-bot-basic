@@ -9,11 +9,11 @@ class Model:
         self.model = self.buildModel(x_train)
         print("> New model initialized: ", model_name)
 
-    def percent_correct(Y, T):
+    def percent_correct(self, Y, T):
         return np.mean(Y == T) * 100
 
     def buildModel(self, X):
-        model = NerualNetwork.NeuralNetworkClassifierTorch(X.shape[1], [10], 2)
+        model = NerualNetwork.NeuralNetworkClassifierTorch(X.shape[1], [20], 2)
         return model
 
     def train(self, x_train, y_train, batch_size, epochs):
@@ -21,9 +21,8 @@ class Model:
         self.model.train(x_train, y_train, n_epochs=epochs)
 
     def evaluate(self, x_test, y_test):
-        x_test = x_test.reshape(-1, 1, len(x_test[0]))
         print("> Evaluating model - ", self.model_name)
-        predictions = np.array(np.argmax(self.model.use(x_test), 1))
+        predictions = self.model.use(x_test)[0]
 
         expected_increase = 0
         found_increase = 0

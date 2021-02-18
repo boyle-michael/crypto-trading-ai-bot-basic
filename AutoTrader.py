@@ -15,8 +15,7 @@ class AutoTrader:
     def buy(self):
         prev_bought_at = self.account.bought_btc_at  # How much did I buy BTC for before
         if self.account.usd_balance - self.trade_amount >= 0:
-            if prev_bought_at == 0 or self.account.last_transaction_was_sell or (
-                    prev_bought_at > self.account.btc_price):  # or (self.account.btc_price/prev_bought_at -1 > 0.005):
+            if prev_bought_at == 0 or self.account.last_transaction_was_sell or prev_bought_at > self.account.btc_price:  # or (self.account.btc_price/prev_bought_at -1 > 0.005):
                 print(">> BUYING $", self.trade_amount, " WORTH OF BITCOIN")
                 self.account.btc_amount += self.trade_amount / self.account.btc_price
                 self.account.usd_balance -= self.trade_amount
@@ -44,8 +43,6 @@ class AutoTrader:
         day_count = 0
         start_price = prices[0]
         final_price = prices[-1]
-        plt.plot(prices)
-        plt.show()
         initial_balance = self.account.usd_balance
         for i in range(0, len(samples)):
 

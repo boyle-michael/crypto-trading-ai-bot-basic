@@ -187,6 +187,37 @@ class Dataset:
         print("> Finished Creating set - Size: ", len(x), " ", len(y), " P: ", positive, " N: ", negative)
 
         x = preprocessing.scale(x)
-        x, y, prices = shuffle(x, y, prices)
+        #x, y, prices = shuffle(x, y, prices)
 
         return np.array(x), np.array(y), prices
+
+    def createTrainingData(self, coin_name, coin_data, step_min):
+        start_index = int(0)
+        end_index = int(len(coin_data) / step_min)
+
+        X = []
+        T = []
+        prices = []
+
+        while end_index < len(coin_data):
+            def calcSum(coin_data, index):
+                temp = []
+                for i in range(int(start_index), int(end_index)):
+                    temp.append(coin_data[i][index])
+                return sum(temp)
+            avg_low = calcSum(coin_data, 1)
+            avg_high = calcSum(coin_data, 2)
+            avg_open = calcSum(coin_data, 3)
+            avg_close = calcSum(coin_data, 4)
+            avg_volume = calcSum(coin_data, 5)
+
+            X.append([avg_low, avg_high, avg_open, avg_close, avg_volume])
+            if coin_data[end_index][3] < coin_data[start_index][4]:
+                T.append([0])
+            else:
+                T.append([1])
+            start_index = end_index
+            end_index += step_min
+            prices.append(coin_data[start_index][4])
+
+        return np.array(X), np.array(T), prices
