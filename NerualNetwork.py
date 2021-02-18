@@ -17,15 +17,15 @@ class NeuralNetworkTorch(torch.nn.Module):
         self.n_inputs = n_inputs
         self.n_hiddens_list = n_hiddens_list
         self.n_outputs = n_outputs
-        self.device = device
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         self.n_layers = len(n_hiddens_list) + 1
 
-        self.layers = torch.nn.ModuleList()
+        self.layers = torch.nn.ModuleList().to(device)
         for n_units in n_hiddens_list:
             self.layers.append(self._make_tanh_layer(n_inputs, n_units))
             n_inputs = n_units
-        self.layers.append(torch.nn.Linear(n_inputs, n_outputs))
+        self.layers.append(torch.nn.Linear(n_inputs, n_outputs)).to(device)
 
         self.stand_params = None
         self.error_trace = []
@@ -33,7 +33,7 @@ class NeuralNetworkTorch(torch.nn.Module):
 
     def _make_tanh_layer(self, n_inputs, n_units):
         return torch.nn.Sequential(torch.nn.Linear(n_inputs, n_units),
-                                   torch.nn.Tanh())
+                                   torch.nn.Tanh()).to(device=self.device)
 
     def __repr__(self):
         return f'NeuralNetworkTorch({self.n_inputs}, {self.n_hiddens_list}, {self.n_outputs}, device={self.device})'
@@ -45,7 +45,6 @@ class NeuralNetworkTorch(torch.nn.Module):
         return Ys[1:]  # remove X from Ys
 
     def train(self, Xtrain, Ttrain, n_epochs=10, learning_rate=0.01, method='adam', verbose=True, Xval=None, Tval=None):
-
         if isinstance(Xtrain, np.ndarray):
             Xtrain = torch.from_numpy(Xtrain.astype(np.float32))
         if isinstance(Ttrain, np.ndarray):

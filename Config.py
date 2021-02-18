@@ -13,3 +13,5 @@ TESTING_MONTHS = ["2020_02", "2020_03"]
 CHANGE_RATE_THRESHOLD = 0.005
 TRAINING_WINDOW = 360  # Window to use for training in minutes
 LABELING_WINDOW = 360  # How far ßahead to look for labeling / prediction
+
+USE_GPU = True
