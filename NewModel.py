@@ -1,7 +1,7 @@
 import NerualNetwork
 import numpy as np
 import torch
-
+from Config import *
 
 class Model:
 
@@ -14,7 +14,7 @@ class Model:
         return np.mean(Y == T) * 100
 
     def buildModel(self, X):
-        model = NerualNetwork.NeuralNetworkClassifierTorch(X.shape[1], [20], 2, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+        model = NerualNetwork.NeuralNetworkClassifierTorch(X.shape[1], N_HIDDENS_LIST, 2, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
         return model
 
     def train(self, x_train, y_train, batch_size, epochs):

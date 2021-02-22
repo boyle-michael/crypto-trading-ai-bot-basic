@@ -15,14 +15,14 @@ class AutoTrader:
     def buy(self):
         prev_bought_at = self.account.bought_btc_at  # How much did I buy BTC for before
         if self.account.usd_balance - self.trade_amount >= 0:
-            if prev_bought_at == 0 or self.account.last_transaction_was_sell or prev_bought_at > self.account.btc_price:  # or (self.account.btc_price/prev_bought_at -1 > 0.005):
-                print(">> BUYING $", self.trade_amount, " WORTH OF BITCOIN")
-                self.account.btc_amount += self.trade_amount / self.account.btc_price
-                self.account.usd_balance -= self.trade_amount
-                self.account.bought_btc_at = self.account.btc_price
-                self.account.last_transaction_was_sell = False
-            else:
-                print(">> Not worth buying more BTC at the moment")
+            # if prev_bought_at == 0 or self.account.last_transaction_was_sell or prev_bought_at > self.account.btc_price:  # or (self.account.btc_price/prev_bought_at -1 > 0.005):
+            print(">> BUYING $", self.trade_amount, " WORTH OF BITCOIN")
+            self.account.btc_amount += self.trade_amount / self.account.btc_price
+            self.account.usd_balance -= self.trade_amount
+            self.account.bought_btc_at = self.account.btc_price
+            self.account.last_transaction_was_sell = False
+            # else:
+            #     print(">> Not worth buying more BTC at the moment")
         else:
             print(">> Not enough USD left in your account to buy BTC ")
 
@@ -50,7 +50,7 @@ class AutoTrader:
                 day_count += 1
                 print(
                     "#################################################################################################")
-                print("#           Account Balance: $", (self.account.usd_balance + self.account.btc_balance),
+                print("#           Account Balance: $", (self.account.usd_balance + self.account.btc_amount * self.account.btc_price),
                       " BTC: $",
                       self.account.btc_balance, " USD: $", self.account.usd_balance, "")
                 print(
@@ -58,7 +58,7 @@ class AutoTrader:
                 print("##########################################   DAY ", day_count,
                       "   #########################################")
                 print(
-                    f'#           Buy and hold: ${initial_balance * (start_price / final_price)}, BTC Amount: {self.account.btc_amount}')
+                    f'#           BTC Amount: {self.account.btc_amount}')
                 print(f'#           BTC/USD: ${self.account.btc_price}')
                 print(
                     "#################################################################################################")
@@ -83,7 +83,9 @@ class AutoTrader:
                 time.sleep(0)  # Only for Visual Purposes
 
         print("#################################################################################################")
-        print("#           Account Balance: $", (self.account.usd_balance + self.account.btc_balance), " BTC: $",
+        print("#           Account Balance: $",
+              (self.account.usd_balance + self.account.btc_amount * self.account.btc_price),
+              " BTC: $",
               self.account.btc_balance, " USD: $", self.account.usd_balance, "")
         print("#################################################################################################")
         print(

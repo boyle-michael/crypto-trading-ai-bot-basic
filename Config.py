@@ -7,11 +7,12 @@ TRAINING_MONTHS = ["2018_06", "2018_07", "2018_08", "2018_09", "2018_10", "2018_
                    "2019_10", "2019_11", "2019_12", "2020_01", "2020_02", "2020_03", "2020_04", "2020_05",
                    "2020_06", "2020_07", "2020_08", "2020_09", "2020_10", "2020_11", "2020_12", "2021_01"]
 
-TESTING_MONTHS = ["2020_02", "2020_03"]
+TESTING_MONTHS = ["2020_10", "2020_11"]
 
 # Model and Auto Trader
 CHANGE_RATE_THRESHOLD = 0.005
 TRAINING_WINDOW = 360  # Window to use for training in minutes
 LABELING_WINDOW = 360  # How far ßahead to look for labeling / prediction
 
-USE_GPU = True
+USE_GPU = False
+N_HIDDENS_LIST = [20]
